@@ -12,81 +12,22 @@ Generate from json
 import json
 
 
-names = [
-    "ablobcatheart",
-    "ablobcatheartbroken",
-    "blobcatheart",
-    "blobcatheartpride",
-    "blobcatlove",
-    "blobcatkissheart",
-    "blobcatsnuggle",
-    "comfyuee",
-    "comfyslep",
-    "comfynight",
-    "blobcatcomfysweat",
-    "blobcatcomfy",
-    "blobcatcomftears",
-    "blobcatfacepalm",
-    "blobcat0_0",
-    "blobcatangry",
-    "blobbanhammerr",
-    "blobcatt",
-    "blobcatblush",
-    "blobcatcoffee",
-    "blobcatcry",
-    "blobcatdead",
-    "blobcatdied",
-    "blobcatdisturbed",
-    "blobcatfearful",
-    "blobcatfingerguns",
-    "blobcatflip",
-    "blobcatflower",
-    "blobcatgay",
-    "blobcatgooglycry",
-    "blobcatneutral",
-    "blobcatopenmouth",
-    "blobcatsadreach",
-    "blobcatscared",
-    "blobcatnomblobcat",
-    "blobcatpresentred",
-    "blobcatread",
-    "blobcatsipsweat",
-    "blobcatsnapped",
-    "blobcatthink",
-    "blobcattriumph",
-    "blobcatumm",
-    "blobcatverified",
-    "blobcatbox",
-    "blobcatcaged",
-    "blobcatgooglytrash",
-    "blobcatheadphones",
-    "blobcathighfive",
-    "blobcatmelt",
-    "blobcatmeltthumb",
-    "blobcatnotlikethis",
-    "blobcatsaitama",
-    "blobcatyandere",
-    "blobcatpeek2",
-    "blobcatpeekaboo",
-    "blobcatphoto",
-    "ablobcatattentionreverse",
-    "ablobcatreachrev",
-    "ablobcatwave",
-    "blobcatalt",
-    "blobcatpolice",
-    "blobcatshocked",
-    "ablobcatrainbow"
-]
-
-icon_type = "png"
-prefix = "https://gcore.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs/"
+def gen_images():
+    prefix = "//gcore.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs/"
+    info = json.load(open("info.json", "r"))
+    items = info["items"]
+    icon_type = info["type"]
+    return [
+        {"icon": f'<img src="{prefix}{item}.{icon_type}">', "text": item}
+        for item in items
+    ]
 
 
 def main():
     res = {}
     blobcat = {}
     blobcat["type"] = "image"
-    blobcat["container"] = [{"icon": f"<img src=\"{prefix}{name}.{icon_type}\">", "text": name} for name in names]
+    blobcat["container"] = gen_images()
     res["blobcat"] = blobcat
     json.dump(res, open("blobcat.json", "w"), indent=2)
 
